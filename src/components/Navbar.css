@@ -1,0 +1,334 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 70px;
+    background: rgba(5, 5, 5, 0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0, 255, 136, 0.158);
+    z-index: 1000;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-family: "MyFont", sans-serif;
+    transition: 0.3s ease;
+}
+
+.brand-name {
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    transition: 0.3s ease;
+}
+
+.code-icon {
+    color: #00ff88;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    transition: 0.3s ease;
+}
+
+.brand-logo:hover {
+    transform: translateY(-2px);
+}
+
+.brand-logo:hover .brand-name {
+    color: #00ff88;
+}
+
+.brand-logo:hover .code-icon {
+    color: #ffffff;
+    transform: translateX(3px);
+    text-shadow: 0 0 12px rgba(0, 255, 136, 0.7);
+    transform: translateY(-1px);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.nav-links a {
+    position: relative;
+    color: #ffffffe1;
+    text-decoration: none;
+    font-family: "MyFont", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    padding: 8px 0;
+    transition: 0.3s ease;
+}
+
+.nav-links .project-link {
+    position: relative;
+    color: #00ff88;
+    background: rgba(1, 51, 33, 0.548);
+    text-decoration: none;
+    font-family: "MyFont", sans-serif;
+    font-size: 16px;
+    font-weight: 550;
+    letter-spacing: 0.7px;
+    border-radius: 6px;
+    padding: 5px 7px;
+    transition: 0.3s ease;
+}
+
+.nav-links .project-link:hover {
+    background-color: #00ff88;
+    color: black;
+}
+
+.nav-links a:hover {
+    color: #00ff88;
+    text-shadow: 0 0 12px rgba(1, 51, 33, 0.548);
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    width: 0;
+    height: 2px;
+    background: #00ff88;
+    border-radius: 10px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.7);
+    transition: 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links .project-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 0;
+    height: 2px;
+    background: #00ff88;
+    border-radius: 10px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.7);
+    transition: 0.3s ease;
+}
+
+.nav-links .project-link:hover::after {
+    width: 85%;
+}
+
+/* ---------- Large Laptop ---------- */
+@media (max-width: 1200px) {
+
+    .navbar {
+        padding: 0 45px;
+    }
+
+    .nav-links {
+        gap: 25px;
+    }
+
+    .nav-links a,
+    .nav-links .project-link {
+        font-size: 14px;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .brand-name {
+        font-size: 21px;
+    }
+
+    .code-icon {
+        font-size: 17px;
+    }
+
+    .brand-logo {
+        gap: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .brand-name {
+        font-size: 18px;
+    }
+
+    .code-icon {
+        font-size: 15px;
+    }
+
+    .brand-logo {
+        gap: 5px;
+    }
+}
+
+/* ---------- Laptop / Tablet ---------- */
+@media (max-width: 992px) {
+
+    .navbar {
+        height: 70px;
+        padding: 0 30px;
+    }
+
+    .navbar h2 {
+        font-size: 22px;
+    }
+
+    .nav-links {
+        gap: 18px;
+    }
+
+    .nav-links a,
+    .nav-links .project-link {
+        font-size: 13px;
+    }
+
+    .nav-links .project-link {
+        padding: 5px 6px;
+    }
+
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 768px) {
+
+    .navbar {
+        height: 68px;
+        padding: 0 22px;
+    }
+
+    .navbar h2 {
+        font-size: 21px;
+    }
+
+    .nav-links {
+        gap: 13px;
+    }
+
+    .nav-links a,
+    .nav-links .project-link {
+        font-size: 11px;
+    }
+
+    .nav-links a {
+        padding: 7px 0;
+    }
+
+    .nav-links .project-link {
+        padding: 5px 6px;
+    }
+
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 600px) {
+
+    .navbar {
+        height: 64px;
+        padding: 0 16px;
+    }
+
+    .navbar h2 {
+        font-size: 19px;
+        letter-spacing: 1.5px;
+    }
+
+    .nav-links {
+        gap: 9px;
+    }
+
+    .nav-links a,
+    .nav-links .project-link {
+        font-size: 10px;
+    }
+
+    .nav-links a {
+        padding: 6px 0;
+    }
+
+    .nav-links a::after {
+        bottom: 3px;
+    }
+
+    .nav-links .project-link {
+        padding: 4px 5px;
+    }
+
+}
+
+/* ---------- Small Mobile ---------- */
+@media (max-width: 480px) {
+
+    .navbar {
+        height: 62px;
+        padding: 0 12px;
+    }
+
+    .navbar h2 {
+        font-size: 17px;
+        letter-spacing: 1px;
+    }
+
+    .nav-links {
+        gap: 7px;
+    }
+
+    .nav-links a,
+    .nav-links .project-link {
+        font-size: 9px;
+    }
+
+    .nav-links .project-link {
+        padding: 4px 5px;
+        border-radius: 5px;
+    }
+
+}
+
+/* ---------- Very Small Phones ---------- */
+@media (max-width: 380px) {
+
+    .navbar {
+        height: 60px;
+        padding: 0 9px;
+    }
+
+    .navbar h2 {
+        font-size: 15px;
+    }
+
+    .nav-links {
+        gap: 5px;
+    }
+
+    .nav-links a,
+    .nav-links .project-link {
+        font-size: 8px;
+    }
+
+    .nav-links .project-link {
+        padding: 3px 4px;
+    }
+
+}
+
+
