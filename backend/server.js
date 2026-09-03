@@ -16,14 +16,16 @@ app.get("/", (req, res) => {
     res.send("Portfolio Backend is Running 🚀");
 });
 
+// Database connection for Vercel/local
+connectDB();
+
 const PORT = process.env.PORT || 5000;
 
-const startServer = async () => {
-    await connectDB();
-
+// Local development ke liye listen karein, Vercel ke liye export zaroori hai
+if (process.env.NODE_ENV !== "production") {
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
-};
+}
 
-startServer();
+module.exports = app;
