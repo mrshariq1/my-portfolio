@@ -2,132 +2,78 @@ import "./Home.css";
 import "../components/footer.css";
 import { useEffect, useRef, useState } from "react";
 
-function Home() {
-    const projectsRef = useRef(null);
-    const autoScrollRef = useRef(null);
+const handleChange = (e) => {
+    const { name, value } = e.target;
 
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        subject: "",
-        message: ""
-    });
-    const [sending, setSending] = useState(false);
-    const [status, setStatus] = useState("");
+    setFormData((prev) => ({
+        ...prev,
+        [name]: value
+    }));
+};
 
-    const scrollProjects = (direction) => {
-        if (projectsRef.current) {
-            const container = projectsRef.current;
-            const card = container.querySelector(".project-card");
+const handleSubmit = async (e) => {
+    e.preventDefault();
 
-            if (!card) return;
+    if (!formData.name.trim() ||
+        !formData.email.trim() ||
+        !formData.subject.trim() ||
+        !formData.message.trim()) {
+        setStatus("Please fill all fields ❌");
+        return;
+    }
 
-            const cardWidth = card.offsetWidth;
-            const gap = parseInt(
-                window.getComputedStyle(container).gap || "0",
-                10
+    setSending(true);
+    setStatus("");
+
+    try {
+        const API_URL =
+            process.env.REACT_APP_API_URL ||
+            "https://my-portfolio-5hay-rj3c3pphm-mrshariq1.vercel.app";
+
+        const response = await fetch(
+            `${API_URL}/api/messages`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.message || "Failed to send message"
             );
-            const scrollAmount = cardWidth + gap;
-            container.scrollBy({
-                left: direction === "right" ? scrollAmount : -scrollAmount,
-                behavior: "smooth"
+        }
+
+        if (data.success) {
+            setStatus("Message sent successfully! ✅");
+
+            setFormData({
+                name: "",
+                email: "",
+                subject: "",
+                message: ""
             });
-        }
-    };
-
-    const pauseAutoScroll = () => {
-        if (autoScrollRef.current) {
-            clearInterval(autoScrollRef.current);
-            autoScrollRef.current = null;
-        }
-    };
-
-    const startAutoScroll = () => {
-        pauseAutoScroll();
-
-        autoScrollRef.current = setInterval(() => {
-            if (projectsRef.current) {
-                const container = projectsRef.current;
-                const card = container.querySelector(".project-card");
-                if (!card) return;
-                const cardWidth = card.offsetWidth;
-                const gap = parseInt(
-                    window.getComputedStyle(container).gap || "0",
-                    10
-                );
-                const scrollAmount = cardWidth + gap;
-                const isAtEnd =
-                    container.scrollLeft + container.clientWidth >=
-                    container.scrollWidth - 10;
-                if (isAtEnd) {
-                    container.scrollTo({
-                        left: 0,
-                        behavior: "smooth"
-                    });
-                } else {
-                    container.scrollBy({
-                        left: scrollAmount,
-                        behavior: "smooth"
-                    });
-                }
-            }
-        }, 4000);
-    };
-
-    const resumeAutoScroll = () => {
-        startAutoScroll();
-    };
-
-    useEffect(() => {
-        startAutoScroll();
-
-        return () => {
-            pauseAutoScroll();
-        };
-    }, []);
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setSending(true);
-        setStatus("");
-        try {
-            const response = await fetch(
-                "https://my-portfolio-5hay-rj3c3pphm-mrshariq1.vercel.app/api/messages",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(formData)
-                }
+        } else {
+            setStatus(
+                data.message || "Something went wrong ❌"
             );
-            const data = await response.json();
-
-            if (data.success) {
-                setStatus("Message sent successfully! ✅");
-                setFormData({
-                    name: "",
-                    email: "",
-                    subject: "",
-                    message: ""
-                });
-            } else {
-                setStatus("Something went wrong ❌");
-            }
-        } catch (error) {
-            console.log(error);
-            setStatus("Server error. Please try again ❌");
-        } finally {
-            setSending(false);
         }
+
+    } catch (error) {
+        console.error("Contact form error:", error);
+
+        setStatus(
+            "Unable to send message. Please try again later ❌"
+        );
+    } finally {
+        setSending(false);
     };
+
 
     return (
         <div className="home-page">
