@@ -419,7 +419,7 @@ function Home() {
                         <article className="project-card">
                             <div className="project-image">
                                 <img
-                                    src="/project3-image.png"
+                                    src="/project4-image.jfif"
                                     alt="DineFlow Restaurant Management System" />
                                 <div className="project-overlay">
                                     <span>
@@ -475,7 +475,7 @@ function Home() {
                         <article className="project-card">
                             <div className="project-image">
                                 <img
-                                    src="/project4-image.jfif"
+                                    src="/project3-image.pnggitg"
                                     alt="Personal Portfolio" />
                                 <div className="project-overlay">
                                     <span>
