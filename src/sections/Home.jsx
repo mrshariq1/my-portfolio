@@ -143,9 +143,9 @@ function Home() {
                         <a href="#projects"> <button className="view-projects">
                             View Projects ↗
                         </button></a>
-                        <button className="lets-talk">
+                       <a href="#contact"> <button className="lets-talk">
                             Let's Talk
-                        </button>
+                        </button></a>
                     </div>
                     <div className="hero-stats">
                         <div>
@@ -419,7 +419,7 @@ function Home() {
                         <article className="project-card">
                             <div className="project-image">
                                 <img
-                                    src="/project4-image.jfif"
+                                    src="/project3-image.png"
                                     alt="DineFlow Restaurant Management System" />
                                 <div className="project-overlay">
                                     <span>
@@ -475,7 +475,7 @@ function Home() {
                         <article className="project-card">
                             <div className="project-image">
                                 <img
-                                    src="/project3-image.png"
+                                    src="/project4-image.jfif"
                                     alt="Personal Portfolio" />
                                 <div className="project-overlay">
                                     <span>
