@@ -94,8 +94,8 @@ function Home() {
         setSending(true);
         setStatus("");
         try {
-            const response = await fetch(
-                "http://localhost:5000/api/messages",
+        const response = await fetch(
+                "https://my-portfolio-5hay-rj3c3pphm-mrshariq1.vercel.app/api/messages",
                 {
                     method: "POST",
                     headers: {
