@@ -34,13 +34,14 @@ function Home() {
             });
         }
     };
-    // ==================-----------------=============-00
+
     const pauseAutoScroll = () => {
         if (autoScrollRef.current) {
             clearInterval(autoScrollRef.current);
             autoScrollRef.current = null;
         }
     };
+
     const startAutoScroll = () => {
         pauseAutoScroll();
 
@@ -76,6 +77,7 @@ function Home() {
     const resumeAutoScroll = () => {
         startAutoScroll();
     };
+
     useEffect(() => {
         startAutoScroll();
 
@@ -83,18 +85,20 @@ function Home() {
             pauseAutoScroll();
         };
     }, []);
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSending(true);
         setStatus("");
         try {
-        const response = await fetch(
+            const response = await fetch(
                 "https://my-portfolio-5hay-rj3c3pphm-mrshariq1.vercel.app/api/messages",
                 {
                     method: "POST",
