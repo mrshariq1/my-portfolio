@@ -13,7 +13,7 @@ async function connectToDatabase() {
     return cachedDb;
 }
 
-// Mongoose Model (Agar pehle se Schema hai toh usko bhi use kar sakte hain)
+// Mongoose Model
 const messageSchema = new mongoose.Schema({
     name: String,
     email: String,
@@ -23,7 +23,7 @@ const messageSchema = new mongoose.Schema({
 });
 const Message = mongoose.models.Message || mongoose.model('Message', messageSchema);
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // CORS Headers
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Origin', 'https://my-portfolio-two-inky-55.vercel.app');
@@ -31,8 +31,7 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
     if (req.method === 'OPTIONS') {
-        res.status(200).end();
-        return;
+        return res.status(200).end();
     }
 
     if (req.method !== 'POST') {
@@ -55,4 +54,4 @@ export default async function handler(req, res) {
         console.error('Server Error:', error);
         return res.status(500).json({ success: false, message: 'Server error. Please try again ❌' });
     }
-}
+};
