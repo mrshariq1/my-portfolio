@@ -28,7 +28,7 @@ const handleSubmit = async (e) => {
     try {
      const API_URL =
     process.env.REACT_APP_API_URL ||
-    "https://my-portfolio-5hay-rj9c3pphm-mrshariq1.vercel.app";
+    "https://my-portfolio-5hay.vercel.app/api/messages";
 
   const response = await fetch(`${API_URL}/api/messages`, {
     method: "POST",
