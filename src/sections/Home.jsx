@@ -26,20 +26,17 @@ const handleSubmit = async (e) => {
     setStatus("");
 
     try {
-        const API_URL =
-            process.env.REACT_APP_API_URL ||
-            "https://my-portfolio-5hay-rj3c3pphm-mrshariq1.vercel.app";
+     const API_URL =
+    process.env.REACT_APP_API_URL ||
+    "https://my-portfolio-5hay-rj9c3pphm-mrshariq1.vercel.app";
 
-        const response = await fetch(
-            `${API_URL}/api/messages`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
-            }
-        );
+  const response = await fetch(`${API_URL}/api/messages`, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(formData)
+});
 
         const data = await response.json();
 
