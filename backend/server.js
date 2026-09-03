@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 require("dotenv").config();
 
 const connectDB = require("./config/db");
@@ -7,14 +6,18 @@ const messageRoutes = require("./routes/messageRoutes");
 
 const app = express();
 
-// CORS configuration to allow all origins safely
-app.use(cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
-app.options("*", cors());
+// Custom Foolproof CORS Middleware for Vercel
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    
+    // Handle preflight OPTIONS request immediately
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+    next();
+});
 
 app.use(express.json());
 
