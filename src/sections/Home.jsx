@@ -48,7 +48,7 @@ export default function Home() {
         setStatus("");
 
         try {
-            const response = await fetch("/api/messages", {
+        const response = await fetch("https://my-portfolio-git-main-mrshariq1.vercel.app/api/messages", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
