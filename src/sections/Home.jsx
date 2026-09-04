@@ -2,71 +2,85 @@ import "./Home.css";
 import "../components/footer.css";
 import { useEffect, useRef, useState } from "react";
 
-const handleChange = (e) => {
-    const { name, value } = e.target;
+export default function Home() {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        subject: "",
+        message: ""
+    });
+    const [status, setStatus] = useState("");
+    const [sending, setSending] = useState(false);
+    
+    const projectsRef = useRef(null);
 
-    setFormData((prev) => ({
-        ...prev,
-        [name]: value
-    }));
-};
-
-const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!formData.name.trim() ||
-        !formData.email.trim() ||
-        !formData.subject.trim() ||
-        !formData.message.trim()) {
-        setStatus("Please fill all fields ❌");
-        return;
-    }
-
-    setSending(true);
-    setStatus("");
-
-    try {
-  const response = await fetch("/api/messages", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify(formData)
-});
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                data.message || "Failed to send message"
-            );
+    // Placeholder functions for project slider auto-scroll / controls
+    const scrollProjects = (direction) => {
+        if (projectsRef.current) {
+            const scrollAmount = 350;
+            projectsRef.current.scrollLeft += direction === "left" ? -scrollAmount : scrollAmount;
         }
-
-        if (data.success) {
-            setStatus("Message sent successfully! ✅");
-
-            setFormData({
-                name: "",
-                email: "",
-                subject: "",
-                message: ""
-            });
-        } else {
-            setStatus(
-                data.message || "Something went wrong ❌"
-            );
-        }
-
-    } catch (error) {
-        console.error("Contact form error:", error);
-
-        setStatus(
-            "Unable to send message. Please try again later ❌"
-        );
-    } finally {
-        setSending(false);
     };
 
+    const pauseAutoScroll = () => {};
+    const resumeAutoScroll = () => {};
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!formData.name.trim() ||
+            !formData.email.trim() ||
+            !formData.subject.trim() ||
+            !formData.message.trim()) {
+            setStatus("Please fill all fields ❌");
+            return;
+        }
+
+        setSending(true);
+        setStatus("");
+
+        try {
+            const response = await fetch("/api/messages", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to send message");
+            }
+
+            if (data.success) {
+                setStatus("Message sent successfully! ✅");
+                setFormData({
+                    name: "",
+                    email: "",
+                    subject: "",
+                    message: ""
+                });
+            } else {
+                setStatus(data.message || "Something went wrong ❌");
+            }
+
+        } catch (error) {
+            console.error("Contact form error:", error);
+            setStatus("Unable to send message. Please try again later ❌");
+        } finally {
+            setSending(false);
+        }
+    };
 
     return (
         <div className="home-page">
@@ -811,6 +825,4 @@ const handleSubmit = async (e) => {
         </div>
     );
 }
-
-export default Home;
 
