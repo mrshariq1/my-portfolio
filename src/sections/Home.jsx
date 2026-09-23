@@ -334,7 +334,7 @@ export default function Home() {
                         {/* ================= PROJECT 03 ================= */}
                         <article className="project-card">
                             <div className="project-image">
-                                <img src="/pro3-image.jpg" alt="My Portfolio" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                <img src="/pro3-image.png" alt="My Portfolio" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 <div className="project-overlay">
                                     <span>VIEW PROJECT</span>
                                 </div>
