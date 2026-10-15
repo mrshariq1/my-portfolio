@@ -113,24 +113,7 @@ export default function Home() {
                     }
                 }
             } catch (formSubmitErr) {
-                console.warn("FormSubmit fetch failed, trying local fallback:", formSubmitErr);
-            }
-
-            // Fallback to local /api/messages if FormSubmit wasn't reached
-            if (!success) {
-                try {
-                    const fallbackRes = await fetch("/api/messages", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(formData)
-                    });
-                    if (fallbackRes.ok) {
-                        success = true;
-                        resultMessage = "Message sent successfully to mr.shariq010@gmail.com! ✅";
-                    }
-                } catch (fallbackErr) {
-                    console.warn("Local API fallback also failed:", fallbackErr);
-                }
+                console.warn("FormSubmit fetch failed:", formSubmitErr);
             }
 
             if (success) {
@@ -142,7 +125,7 @@ export default function Home() {
                     message: ""
                 });
             } else {
-                // If both networks blocked, open mailto directly
+                // If network blocked or offline, open mailto directly
                 const mailtoUrl = `mailto:mr.shariq010@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
                 window.location.href = mailtoUrl;
                 setStatus("Opening your email app to send directly to mr.shariq010@gmail.com... ✅");
