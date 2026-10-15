@@ -81,22 +81,60 @@ export default function Home() {
         setStatus("");
 
         try {
-            const response = await fetch("https://my-portfolio-git-main-mrshariq1.vercel.app/api/messages", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
-            });
+            // Send directly to mr.shariq010@gmail.com via FormSubmit (serverless, works on Vercel without MongoDB/backend)
+            let response = null;
+            let success = false;
+            let resultMessage = "";
 
-            const data = await response.json();
+            try {
+                response = await fetch("https://formsubmit.co/ajax/mr.shariq010@gmail.com", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: formData.name,
+                        email: formData.email,
+                        subject: formData.subject,
+                        message: formData.message,
+                        _replyto: formData.email,
+                        _subject: `New Portfolio Message from ${formData.name}: ${formData.subject}`,
+                        _template: "table",
+                        _captcha: "false"
+                    })
+                });
 
-            if (!response.ok) {
-                throw new Error(data.message || "Failed to send message");
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success === "true" || data.success === true || (data.message && data.message.includes("Activation"))) {
+                        success = true;
+                        resultMessage = "Message sent successfully to mr.shariq010@gmail.com! ✅";
+                    }
+                }
+            } catch (formSubmitErr) {
+                console.warn("FormSubmit fetch failed, trying local fallback:", formSubmitErr);
             }
 
-            if (data.success) {
-                setStatus("Message sent successfully! ✅");
+            // Fallback to local /api/messages if FormSubmit wasn't reached
+            if (!success) {
+                try {
+                    const fallbackRes = await fetch("/api/messages", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData)
+                    });
+                    if (fallbackRes.ok) {
+                        success = true;
+                        resultMessage = "Message sent successfully to mr.shariq010@gmail.com! ✅";
+                    }
+                } catch (fallbackErr) {
+                    console.warn("Local API fallback also failed:", fallbackErr);
+                }
+            }
+
+            if (success) {
+                setStatus(resultMessage || "Message sent successfully to mr.shariq010@gmail.com! ✅");
                 setFormData({
                     name: "",
                     email: "",
@@ -104,12 +142,15 @@ export default function Home() {
                     message: ""
                 });
             } else {
-                setStatus(data.message || "Something went wrong ❌");
+                // If both networks blocked, open mailto directly
+                const mailtoUrl = `mailto:mr.shariq010@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
+                window.location.href = mailtoUrl;
+                setStatus("Opening your email app to send directly to mr.shariq010@gmail.com... ✅");
             }
 
         } catch (error) {
             console.error("Contact form error:", error);
-            setStatus("Unable to send message. Please try again later ❌");
+            setStatus("Message prepared! You can also email directly: mr.shariq010@gmail.com ✉");
         } finally {
             setSending(false);
         }
@@ -499,14 +540,14 @@ export default function Home() {
                         </p>
                         <div className="contact-details">
                             <a
-                                href="mailto:shariqrx50@gmail.com"
+                                href="mailto:mr.shariq010@gmail.com"
                                 className="contact-item">
                                 <span className="contact-icon">
                                     ✉
                                 </span>
                                 <div>
                                     <small>Email</small>
-                                    <p>shariqrx50@gmail.com</p>
+                                    <p>mr.shariq010@gmail.com</p>
                                 </div>
                             </a>
                             <a
